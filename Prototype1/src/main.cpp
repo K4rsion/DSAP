@@ -63,6 +63,9 @@ void setup() {
     server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
         request->send(SPIFFS, "/index.html");
     });
+    server.on("/script.js", HTTP_GET, [](AsyncWebServerRequest *request) {
+        request->send(SPIFFS, "/script.js", "text/javascript");
+    });
     server.onRequestBody([](AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total) {
         if (request->url() == "/changePitchLvl") {
             DynamicJsonDocument doc(1024);
