@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h0>DSAP</h0>
+    <h1>pitch level:</h1>
+    <div class="slider" id="pitch">
+        <output for fader id="volume">0</output>
+        <input type="range" id="fader" min="0" max="600" value="0" step="1" oninput="
+        outputUpdate(value)">
+    </div>
+    <button id="submitButton">Submit</button>
+    <script src="script.js"></script>
+</body>
+
+</html>

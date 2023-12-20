@@ -1,0 +1,84 @@
+body {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: #000000;
+  flex-direction: column;
+}
+
+h0 {
+  padding: 50px;
+  color: #ffffff;
+  font-family: 'Press Start 2P';
+  font-size: 150px;
+  text-align: center;
+}
+
+h1 {
+  color: #ffffff;
+  font-family: 'Bit Cell';
+  padding: 10px;
+}
+
+.slider {
+  position: relative;
+  border-radius: 8px;
+  background: #000000;
+  width: 600px;
+  height: 22px;
+
+}
+
+#fader {
+  position: relative;
+  width: 600px;
+  height: 20px;
+  background: #fff;
+  border-radius: 1px;
+  -webkit-appearance: none;
+  outline: none;
+}
+
+output {
+  position: absolute;
+  left: -20px;
+  top: -40px;
+  color: #ffffff;
+  font-family: 'Bit Cell';
+  font-size: 40px;
+}
+
+#fader::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: block;
+  background: #000;
+  box-shadow: 0 0 0 5 inset #000;
+  appearance: none;
+}
+
+input {
+  appearance: none;
+  background: none;
+  cursor: pointer;
+}
+
+
+.submitButton {
+  background-image: url('button-regular.png');
+  padding: 10px;
+  background-clip: initial;
+  border: none;
+  cursor: pointer;
+  background-color: #000000;
+  transition: background-image 0.3s ease;
+}
+
+.submitButton:hover {
+  background-image: url('button-on-click.png');
+}
