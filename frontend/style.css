@@ -10,7 +10,7 @@ body {
 }
 
 h0 {
-  padding: 50px;
+  padding: 30px;
   color: #ffffff;
   font-family: 'Press Start 2P';
   font-size: 150px;
@@ -19,25 +19,53 @@ h0 {
 
 h1 {
   color: #ffffff;
+  font-size: 50px;
   font-family: 'Bit Cell';
   padding: 10px;
 }
 
+h2 {
+  color: #ffffff;
+  font-size: 50px;
+  font-family: 'Bit Cell';
+  
+}
+
+#submitButton {
+  
+  text-align: center;
+  align-items: center;
+  font-family: 'Bit Cell';
+  font-size: 50px;
+  margin-top: 40px;
+  width: 150px; 
+  height: 70px; 
+  border: 10px solid #ffffff;
+  background-color: #ffffff;
+  
+  cursor: pointer; 
+}
+
+#submitButton:hover {
+  border: 7px solid #ffffff;
+  background-color: #000000;
+  color: #ffffff;
+}
+
 .slider {
   position: relative;
-  border-radius: 8px;
   background: #000000;
   width: 600px;
-  height: 22px;
+  height: 20px;
 
 }
 
 #fader {
   position: relative;
   width: 600px;
-  height: 20px;
+  height: 30px;
   background: #fff;
-  border-radius: 1px;
+  border-radius: 5px;
   -webkit-appearance: none;
   outline: none;
 }
@@ -68,17 +96,23 @@ input {
   cursor: pointer;
 }
 
-
-.submitButton {
-  background-image: url('button-regular.png');
-  padding: 10px;
-  background-clip: initial;
-  border: none;
+.toggle {
+  border: 7px solid #ffffff;
+  display: inline-block;
+  width: 72px; /* ширина */
+  height: 32px; /* высота */
+  background: #ffffff; /* цвет фона */
+  padding: 0;
   cursor: pointer;
-  background-color: #000000;
-  transition: background-image 0.3s ease;
+  position: relative;
+  transition-duration: 300ms; /* анимация */
+  margin-bottom: 30px;
 }
 
-.submitButton:hover {
-  background-image: url('button-on-click.png');
+.knob {
+  height: 32px; /* высота кнопки */
+  width: 32px; /* ширина кнопки */
+  background: #000; /* цвет кнопки */
+  transition-duration: 300ms; /* анимация */
+  position: absolute;
 }
