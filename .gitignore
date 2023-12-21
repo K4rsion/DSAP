@@ -1,2 +1,4 @@
-.pio
 .idea
+.pio
+include/
+test/
