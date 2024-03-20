@@ -32,7 +32,7 @@ function outputUpdate(vol) {
 }
 
 function toggleSwitch() {
-    fetch('echo', {
+    fetch('robot', {
         method: 'GET',
     })
         .then(response => {

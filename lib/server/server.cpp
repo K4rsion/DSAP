@@ -47,18 +47,23 @@ void router() {
         request->send(SPIFFS, "/script.js", "text/javascript");
     });
 
-    server.on("/echo", HTTP_GET, [](AsyncWebServerRequest *request) {
-        changeEcho();
-        request->send(200, "text/plain", "echo");
+    server.on("/robot", HTTP_GET, [](AsyncWebServerRequest *request) {
+        changeRobot();
+        request->send(200, "text/plain", "robotVoice");
     });
 
-    server.onRequestBody([](AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total) {
-        if (request->url() == "/pitch") {
-            DynamicJsonDocument doc(1024);
-            deserializeJson(doc, data);
-            uint16_t valueNum = doc["value"];
-            changePitchFactor(valueNum);
-            request->send(200, "text/plain", "pitch");
-        }
-    });
+//    server.on("/echo", HTTP_GET, [](AsyncWebServerRequest *request) {
+//        changeEcho();
+//        request->send(200, "text/plain", "echo");
+//    });
+//
+//    server.onRequestBody([](AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total) {
+//        if (request->url() == "/pitch") {
+//            DynamicJsonDocument doc(1024);
+//            deserializeJson(doc, data);
+//            uint16_t valueNum = doc["value"];
+//            changePitchFactor(valueNum);
+//            request->send(200, "text/plain", "pitch");
+//        }
+//    });
 }
