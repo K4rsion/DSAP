@@ -5,10 +5,73 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="./output.css" rel="stylesheet">
+
+    <style>
+        /* Добавляем правило для применения шрифта Bit Cell */
+        .bit-cell-font {
+            font-family: "Bit Cell", sans-serif;
+        }
+
+        .press-start-2p-font {
+            font-family: "Press Start 2P", sans-serif;
+        }
+
+        @keyframes falling {
+            0% {
+                transform: translateY(0vh);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateY(100vh);
+                opacity: 1;
+            }
+        }
+
+        .container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            overflow: hidden;
+            /* цвет фона */
+            z-index: -1;
+            /* задаем индекс слоя, чтобы контейнер был под всеми другими элементами */
+        }
+
+        .square {
+            width: 10px;
+            /* ширина квадрата */
+            height: 10px;
+            /* высота квадрата */
+            background-color: white;
+            position: absolute;
+            /* чтобы квадраты выглядели как пиксели */
+            animation: falling 1s linear infinite;
+        }
+    </style>
 </head>
 
-<body>
-    <h0>DSAP</h0>
+<body class="flex justify-start items-center min-h-screen m-0 p-0 bg-black flex-col">
+    <h0 class="press-start-2p-font text-white text-9xl font-bold uppercase my-4">DSAP</h0>
+    <div class="container">
+        <!-- Добавляем квадраты с помощью JavaScript -->
+    </div>
+    <script>
+        // Создаем квадраты и добавляем их в контейнер
+        const container = document.querySelector('.container');
+        const numSquares = 100; // количество квадратов
+
+        for (let i = 0; i < numSquares; i++) {
+            const square = document.createElement('div');
+            square.classList.add('square');
+            square.style.left = `${Math.random() * 100}vw`; // случайное положение по горизонтали
+            square.style.animationDelay = `${Math.random()}s`; // случайная задержка анимации
+            container.appendChild(square);
+        }
+    </script>
     <h1>pitch level:</h1>
     <div class="slider" id="pitch">
         <div className="slider-toggle"></div>

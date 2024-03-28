@@ -2,25 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-  background-color: #000;
-  flex-direction: column;
-}
-
- h0 {
-  padding: 30px;
-  color: #ffffff;
-  font-family: 'Press Start 2P';
-  font-size: 150px;
-  text-align: center;
-} 
-
 h1 {
   color: #ffffff;
   font-size: 50px;
