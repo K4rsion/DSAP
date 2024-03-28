@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
   display: flex;
   justify-content: flex-start;
@@ -5,17 +9,17 @@ body {
   min-height: 100vh;
   margin: 0;
   padding: 0;
-  background-color: #000000;
+  background-color: #000;
   flex-direction: column;
 }
 
-h0 {
+ h0 {
   padding: 30px;
   color: #ffffff;
   font-family: 'Press Start 2P';
   font-size: 150px;
   text-align: center;
-}
+} 
 
 h1 {
   color: #ffffff;
@@ -28,22 +32,22 @@ h2 {
   color: #ffffff;
   font-size: 50px;
   font-family: 'Bit Cell';
-  
+
 }
 
 #submitButton {
-  
+
   text-align: center;
   align-items: center;
   font-family: 'Bit Cell';
   font-size: 50px;
   margin-top: 40px;
-  width: 150px; 
-  height: 70px; 
+  width: 150px;
+  height: 70px;
   border: 10px solid #ffffff;
   background-color: #ffffff;
-  
-  cursor: pointer; 
+
+  cursor: pointer;
 }
 
 #submitButton:hover {
@@ -57,7 +61,6 @@ h2 {
   background: #000000;
   width: 600px;
   height: 20px;
-
 }
 
 #fader {
@@ -99,20 +102,28 @@ input {
 .toggle {
   border: 7px solid #ffffff;
   display: inline-block;
-  width: 72px; /* ширина */
-  height: 32px; /* высота */
-  background: #ffffff; /* цвет фона */
+  width: 72px;
+  /* ширина */
+  height: 32px;
+  /* высота */
+  background: #ffffff;
+  /* цвет фона */
   padding: 0;
   cursor: pointer;
   position: relative;
-  transition-duration: 300ms; /* анимация */
+  transition-duration: 0.3s;
+  /* анимация */
   margin-bottom: 30px;
 }
 
 .knob {
-  height: 32px; /* высота кнопки */
-  width: 32px; /* ширина кнопки */
-  background: #000; /* цвет кнопки */
-  transition-duration: 300ms; /* анимация */
+  height: 32px;
+  /* высота кнопки */
+  width: 32px;
+  /* ширина кнопки */
+  background: #000;
+  /* цвет кнопки */
+  transition-duration: 0.3s;
+  /* анимация */
   position: absolute;
 }

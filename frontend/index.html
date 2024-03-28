@@ -3,13 +3,15 @@
 
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./output.css" rel="stylesheet">
 </head>
 
 <body>
     <h0>DSAP</h0>
     <h1>pitch level:</h1>
     <div class="slider" id="pitch">
+        <div className="slider-toggle"></div>
         <output for fader id="volume">0</output>
         <input type="range" id="fader" min="0" max="600" value="0" step="1" oninput="
         outputUpdate(value)">

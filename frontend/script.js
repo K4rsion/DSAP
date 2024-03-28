@@ -35,7 +35,6 @@ function outputUpdate(vol) {
 
 toggleButton.addEventListener('click', () => {
     fetch();
-
 });
 
 function toggleSwitch() {
