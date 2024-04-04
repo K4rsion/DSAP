@@ -596,10 +596,6 @@ video {
   position: absolute;
 }
 
-.relative {
-  position: relative;
-}
-
 .m-0 {
   margin: 0px;
 }
@@ -607,6 +603,18 @@ video {
 .my-4 {
   margin-top: 1rem;
   margin-bottom: 1rem;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+.mt-8 {
+  margin-top: 2rem;
+}
+
+.block {
+  display: block;
 }
 
 .flex {
@@ -617,8 +625,8 @@ video {
   display: none;
 }
 
-.h-screen {
-  height: 100vh;
+.h-5 {
+  height: 1.25rem;
 }
 
 .min-h-screen {
@@ -627,6 +635,12 @@ video {
 
 .transform {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.appearance-none {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
 }
 
 .flex-col {
@@ -641,13 +655,59 @@ video {
   justify-content: flex-start;
 }
 
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.border-4 {
+  border-width: 4px;
+}
+
+.border-white {
+  --tw-border-opacity: 1;
+  border-color: rgb(255 255 255 / var(--tw-border-opacity));
+}
+
 .bg-black {
   --tw-bg-opacity: 1;
   background-color: rgb(0 0 0 / var(--tw-bg-opacity));
 }
 
+.bg-white {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
 .p-0 {
   padding: 0px;
+}
+
+.p-10 {
+  padding: 2.5rem;
+}
+
+.px-12 {
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+.py-4 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-4xl {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+}
+
+.text-5xl {
+  font-size: 3rem;
+  line-height: 1;
 }
 
 .text-9xl {
@@ -663,90 +723,26 @@ video {
   text-transform: uppercase;
 }
 
+.text-black {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity));
+}
+
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
-.ease-in-out {
+.outline {
+  outline-style: solid;
+}
+
+.transition {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-h1 {
-  color: #ffffff;
-  font-size: 50px;
-  font-family: 'Bit Cell';
-  padding: 10px;
-}
-
-h2 {
-  color: #ffffff;
-  font-size: 50px;
-  font-family: 'Bit Cell';
-}
-
-#submitButton {
-  text-align: center;
-  align-items: center;
-  font-family: 'Bit Cell';
-  font-size: 50px;
-  margin-top: 40px;
-  width: 150px;
-  height: 70px;
-  border: 10px solid #ffffff;
-  background-color: #ffffff;
-  cursor: pointer;
-}
-
-#submitButton:hover {
-  border: 7px solid #ffffff;
-  background-color: #000000;
-  color: #ffffff;
-}
-
-.slider {
-  position: relative;
-  background: #000000;
-  width: 600px;
-  height: 20px;
-}
-
-#fader {
-  position: relative;
-  width: 600px;
-  height: 30px;
-  background: #fff;
-  border-radius: 5px;
-  -webkit-appearance: none;
-  outline: none;
-}
-
-output {
-  position: absolute;
-  left: -20px;
-  top: -40px;
-  color: #ffffff;
-  font-family: 'Bit Cell';
-  font-size: 40px;
-}
-
-#fader::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  display: block;
-  background: #000;
-  box-shadow: 0 0 0 5 inset #000;
-  appearance: none;
-}
-
-input {
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  background: none;
-  cursor: pointer;
+  transition-duration: 150ms;
 }
 
 .toggle {
@@ -767,13 +763,23 @@ input {
 }
 
 .knob {
-  height: 32px;
+  height: 20px;
   /* высота кнопки */
-  width: 32px;
+  width: 20px;
   /* ширина кнопки */
   background: #000;
   /* цвет кнопки */
   transition-duration: 0.3s;
   /* анимация */
   position: absolute;
+}
+
+.hover\:bg-black:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+}
+
+.hover\:text-white:hover {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
