@@ -112,9 +112,7 @@
     </script>
 
     <h1 class="text-white text-5xl bit-cell-font p-10">volume level:</h1>
-
-
-    <input class="slider overflow-hidden appearance-none bg-white h-5" type="range" min="0" max="10" step="1" value="0"
+    <input id="slider1" class="slider overflow-hidden appearance-none bg-white h-5" type="range" min="0" max="9" step="1" value="0"
         oninput="outputUpdate(value)" />
 
     <output for="myRange" id="sliderValue" class="block text-center mt-2 text-white bit-cell-font text-5xl">
@@ -125,6 +123,7 @@
         class="mt-8 bit-cell-font text-4xl bg-white text-black border-4 border-white px-12 py-4 hover:bg-black hover:text-white">
         submit
     </button>
+
     <h2 class="text-white text-5xl bit-cell-font p-10">echo:</h2>
     <div class="toggle" onclick="toggleSwitch()">
         <div class="knob" id="knob"></div>

@@ -31,8 +31,10 @@ const toggleButton = document.getElementsById('toggleButton');
 
 document.getElementById('submitButton1').addEventListener('click', function () {
     // Получаем значение со слайдера
-    var sliderValue = document.getElementById('slider').value;
 
+    var getValue = document.getElementById('slider').value;
+    const volumeValues = [0, 1, 5, 10, 15, 22, 25, 33, 44, 55];
+    var sliderValue = volumeValues[getValue]
     // Формируем URL с параметром значения слайдера
     var url = 'http://192.168.1.1/changeVolume?volumeValue=' + sliderValue;
 
