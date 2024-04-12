@@ -1,36 +1,33 @@
-#include <malloc.h>
-#include <Arduino.h>
-#include "config.h"
-#include "server.h"
-#include "effects.h"
+#include "Arduino.h"
+#include "AudioTools.h"
 
+AudioInfo info(40100, 2, 16);
+I2SStream out;
+AnalogAudioStream in;
+StreamCopy copier(out, in);
 
 void setup() {
+    // Логи
     Serial.begin(115200);
-    i2sInputInit();
-    i2sOutputInit();
-    spiffs();
-    router();
-    server_start();
+    AudioLogger::instance().begin(Serial, AudioLogger::Info);
+
+    // Настройка АЦП
+    auto configAdc = in.defaultConfig(RX_MODE); // режим передачи данных
+    configAdc.port_no = 0; // интерфейс I2S (в esp их всего два)
+    configAdc.adc_pin = 33; // pin микрофона
+    configAdc.set(info);
+    in.begin(configAdc);
+
+    // Настройка ЦАП
+    auto configDac = out.defaultConfig(TX_MODE); // режим приема данных
+    configDac.port_no = 1; // интерфейс I2S
+    configDac.pin_bck = 14; // одноименные пины внешнего DAC
+    configDac.pin_ws = 26;
+    configDac.pin_data = 27;
+    configDac.set(info);
+    out.begin(configDac);
 }
 
-//#define FFT
-
 void loop() {
-    size_t bytes_read;
-    size_t bytes_written;
-#ifdef FFT
-    complex *buffer = (complex *) malloc(I2S_DMA_BUF_LEN * sizeof(complex));
-    i2s_read(I2S_NUM_0, buffer, I2S_DMA_BUF_LEN * sizeof(complex), &bytes_read, portMAX_DELAY);
-    fft(buffer, I2S_DMA_BUF_LEN / 8, 0);
-    fft(buffer, I2S_DMA_BUF_LEN / 8, 1);
-    i2s_write(I2S_NUM_1, buffer, I2S_DMA_BUF_LEN * sizeof(complex), &bytes_written, portMAX_DELAY);
-    free(buffer);
-#else
-    int *int_buffer = (int *) malloc(I2S_DMA_BUF_LEN * sizeof(int));
-    i2s_read(I2S_NUM_0, int_buffer, I2S_DMA_BUF_LEN * sizeof(int), &bytes_read, portMAX_DELAY);
-    applyEffect(int_buffer);
-    i2s_write(I2S_NUM_1, int_buffer, I2S_DMA_BUF_LEN * sizeof(int), &bytes_written, portMAX_DELAY);
-    free(int_buffer);
-#endif
+    copier.copy(); // передача из in в out
 }
