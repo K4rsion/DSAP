@@ -1,0 +1,38 @@
+.slider {
+  -webkit-appearance: none;
+  width: 33.3%;
+  height: 20px;
+  background: white;
+  outline: none;
+  opacity: 1;
+  border-color: white;
+  border-width: 5px;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  /* Ширина ползунка */
+  height: 15px;
+  /* Высота ползунка */
+  background-color: #000;
+  /* Цвет ползунка (черный) */
+  border-radius: 0;
+  /* Отключение скругления углов */
+  cursor: pointer;
+  /* Изменение курсора при наведении */
+}
+
+.slider::-moz-range-thumb {
+  width: 20px;
+  /* Ширина ползунка */
+  height: 20px;
+  /* Высота ползунка */
+  background-color: #000;
+  /* Цвет ползунка (черный) */
+  border-radius: 0;
+  /* Отключение скругления углов */
+  cursor: pointer;
+  /* Изменение курсора при наведении */
+}

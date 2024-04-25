@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.bit-cell-font {
+  font-family: "Bit Cell", sans-serif;
+}
+
+.press-start-2p-font {
+  font-family: "Press Start 2P", sans-serif;
+}
