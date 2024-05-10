@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Client } from '../../Client';
-import './Slider.css';
+import './Slider.css'
 
 const Slider = () => {
   const [sliderValue, setSliderValue] = useState(0);
@@ -18,7 +18,7 @@ const Slider = () => {
   };
 
   return (
-    <div className="w-full max-w-full">
+    <div className="mt-2">
       <input
         className="slider"
         type="range"
@@ -27,7 +27,7 @@ const Slider = () => {
         value={sliderValue}
         onChange={handleChange}
         onPointerUp={handlePointerUp}
-      ></input>
+      />
     </div>
   );
 };

@@ -8,8 +8,8 @@ const root = createRoot(container!);
 
 root.render(
   <React.StrictMode>
-    <div className="w-full items-center justify-normal">
-    <App />
+    <div className="w-full h-auto items-center justify-normal">
+      <App />
     </div>
   </React.StrictMode>
 );
