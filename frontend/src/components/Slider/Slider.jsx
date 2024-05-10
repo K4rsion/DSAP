@@ -1,16 +1,23 @@
 import React, { useState } from 'react';
 import { Client } from '../../Client';
-import './Slider.css'
+import './Slider.css';
 
-const Slider = () => {
+const Slider = ({ sliderType }) => {
   const [sliderValue, setSliderValue] = useState(0);
 
   const handleChange = (event) => {
     const newValue = parseInt(event.target.value);
     setSliderValue(newValue);
-    Client.changeSliderValue(newValue)
-      .then((a) => a.mostNew)
-      .then((mostNew) => setSliderValue(mostNew));
+
+    if (sliderType === 'volume') {
+      Client.changeVolumeValue(newValue)
+        .then((a) => a.mostNew)
+        .then((mostNew) => setSliderValue(mostNew));
+    } else if (sliderType === 'pitch') {
+      Client.changePitchValue(newValue)
+        .then((a) => a.mostNew)
+        .then((mostNew) => setSliderValue(mostNew));
+    }
   };
 
   const handlePointerUp = () => {
