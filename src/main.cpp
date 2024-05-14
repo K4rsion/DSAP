@@ -1,74 +1,129 @@
-#include "Arduino.h"
 #include "AudioTools.h"
-//#include "StkAll.h"
+#include <WiFi.h>
+#include <Wire.h>
+#include <SPIFFS.h>
+#include "ESPAsyncWebServer.h"
+#include "AsyncTCP.h"
+#include "ArduinoJson.h"
 
+#define ssid "DSAP"
+#define password "12345678"
 
-AudioInfo info(44100, 2, 16);
-AnalogAudioStream in;
+I2SStream in;
 I2SStream out;
 
-FilteredStream<int16_t, float> inFiltered(in, info.channels);
-AudioEffectStream effects(inFiltered);
+AudioInfo info32(44100, 2, 32);
+AudioInfo info16(44100, 2, 16);
 
-StreamCopy copier(out, effects);
-
-// Фильтры
-float coef[19] = {
-        -0.000704420658475743, -0.000537879918926308, 0.004114637509913062,
-        -0.012685775806621488, 0.027889173789107543,  -0.049285026985058301,
-        0.074005079283040689,  -0.097330704866957815, 0.114052040962871595,
-        0.880965753382213723,  0.114052040962871595,  -0.097330704866957843,
-        0.074005079283040717,  -0.049285026985058301, 0.027889173789107550,
-        -0.012685775806621504, 0.004114637509913064,  -0.000537879918926308,
-        -0.000704420658475743};
-MedianFilter<float> medianFilter;     // Простой медианный фильтр. Очищает шумы неплохо. Смягчает выбросы.
-FIR<float> fir(coef);
-Filter<float>* filters[] = {&fir, &medianFilter};
-FilterChain<float, 2> filterChain(std::move(filters));
+AudioEffectStream effects(out);
+FormatConverterStream conv(effects);
+StreamCopy copier(conv, in);
 
 // Эффекты
-//PitchShift pitchShift(1, 512);
-//Compressor compressor(44100);
-//Boost boost(1.2);                     values: 0.0 - 1.0
-//Distortion distortion(4990, 6500);
-//Fuzz fuzz(6.5, 200);
-//Tremolo tremolo(2000, 50, 44100);
-////Delay delayEffect(1000, 0.5, 1.0, 44100);
-//ADSRGain adsrGain(0.001, 0.001, 0.5, 0.005, 1.0);
+PitchShift pitchShift(1.0, 1000);
+Compressor compressor(44100, 30, 20, 10, 10, 0.5);
+Boost boost(1.0);
+Distortion distortion(4990, 6500);
+Fuzz fuzz(6.5, 300);
+Tremolo tremolo(2000, 50, 44100);
+//Delay delayEffect(1000, 0.5, 1.0, 44100);  // не хватает памяти?
+ADSRGain adsrGain(0.001, 0.001, 0.5, 0.005, 1.0);
 
+
+/////////////////////////
+IPAddress ip(192, 168, 1, 1);
+IPAddress gateway(192, 168, 1, 1);
+IPAddress subnet(255, 255, 255, 0);
+
+AsyncWebServer server(80);
+
+/*
+ * Create routes and determine handle functions to each route.
+ */
+void router() {
+    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
+        request->send(SPIFFS, "/index.html");
+    });
+
+    server.on("/script.js", HTTP_GET, [](AsyncWebServerRequest *request) {
+        request->send(SPIFFS, "/script.js", "text/javascript");
+    });
+
+    //"http://192.168.1.1/pitch?shiftValue=1.0"
+    server.on("/pitch", HTTP_PUT, [](AsyncWebServerRequest *request) {
+        if (request->hasParam("shiftValue")) {
+            String shiftValueStr = request->getParam("shiftValue")->value();
+            float shiftValue = shiftValueStr.toFloat();
+            pitchShift.setValue(shiftValue);
+        }
+        request->send(200, "text/plain", "OK");
+    });
+
+    //clear all effects
+    server.on("/clear", HTTP_PUT, [](AsyncWebServerRequest *request) {
+        //effects.clear(); // очищает вообще все без возможности снова использовать эффект
+        // нужно пройтись по всем подключенным фильтрам и восстановить дефолтные параметры
+        request->send(200, "text/plain", "OK");
+    });
+}
+
+/*
+ * Configure the server and start it.
+ */
+void start_server() {
+    SPIFFS.begin();
+    WiFi.softAP(ssid, password);
+    delay(500);
+    WiFi.softAPConfig(ip, gateway, subnet);
+    IPAddress ipAddress = WiFi.softAPIP();
+    Serial.print("Server IP: ");
+    Serial.println(ipAddress);
+    server.begin();
+}
+
+/////////////////////////
 
 void setup() {
-    // Логи
 //    Serial.begin(115200);
-//    AudioLogger::instance().begin(Serial, AudioLogger::Warning);
+//    AudioLogger::instance().begin(Serial, AudioLogger::Info);
 
-    // Настройка АЦП
-    auto configAdc = in.defaultConfig(RX_MODE);
-    configAdc.port_no = 0;
-    configAdc.adc_pin = 33;
-    configAdc.set(info);
-    in.begin(configAdc);
+    router();
+    start_server();
 
-    // Настройка ЦАП
-    auto configDac = out.defaultConfig(TX_MODE);
-    configDac.port_no = 1;
-    configDac.pin_bck = 14;
-    configDac.pin_data = 27;
-    configDac.pin_ws = 26;
-    configDac.buffer_size = 1000;
-    configDac.buffer_count = 6;
-    configDac.use_apll = true;     // встроенная частота
-    configDac.auto_clear = true;    // очищение буфера перед отправкой
-    configDac.set(info);
-    out.begin(configDac);
+    Serial.println("starting ADC...");
+    auto config_in = in.defaultConfig(RX_MODE);
+    config_in.copyFrom(info32);
+    config_in.i2s_format = I2S_STD_FORMAT;
+    config_in.is_master = true;
+    config_in.port_no = 0;
+    config_in.pin_data = 32;
+    config_in.pin_bck = 27;
+    config_in.pin_ws = 14;
+    config_in.pin_mck = 0;
+    config_in.fixed_mclk = 256 * info32.sample_rate;
+    in.begin(config_in);
+    Serial.println("ADC started...");
 
-    // Фильтры
-    inFiltered.setFilter(0, filterChain);
-    inFiltered.begin(info);
+    Serial.println("Starting DAC...");
+    auto config_out = out.defaultConfig(TX_MODE);
+    config_out.copyFrom(info16);
+    config_out.i2s_format = I2S_STD_FORMAT;
+    config_out.is_master = true;
+    config_out.port_no = 1;
+    config_out.pin_bck = 26;
+    config_out.pin_data = 25;
+    config_out.pin_ws = 33;
+    out.begin(config_out);
+    Serial.println("DAC started...");
 
     // Эффекты
-    effects.addEffect(new Delay(1000, 0.5, 0.6, 44100));
-    effects.begin(info);
+    effects.addEffect(pitchShift);
+    effects.begin(info16);
+
+    Serial.println("Starting conv...");
+    conv.begin(info32, info16);
+    Serial.println("Conv started...");
+
 }
 
 void loop() {
