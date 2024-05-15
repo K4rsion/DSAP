@@ -21,19 +21,11 @@ function App() {
       <h0 className="press-start-2p-font text-7xl text-white">DSAP</h0>
       <h1 className="bit-cell-font text-4xl text-white mb-4">volume level:</h1>
       <Slider sliderType="volume" enabled={isVolumeEnabled} />
-      <Checkbox
-        label="Enable Volume"
-        checked={isVolumeEnabled}
-        onChange={handleVolumeChange}
-      />
+      <Checkbox checked={isVolumeEnabled} onChange={handleVolumeChange} />
 
       <h2 className="bit-cell-font text-4xl text-white mb-4">pitch level:</h2>
       <Slider sliderType="pitch" enabled={isPitchEnabled} />
-      <Checkbox
-        label="Enable Pitch"
-        checked={isPitchEnabled}
-        onChange={handlePitchChange}
-      />
+      <Checkbox checked={isPitchEnabled} onChange={handlePitchChange} />
 
       <h2 className="bit-cell-font text-4xl text-white mb-4">echo:</h2>
       <Toggle />

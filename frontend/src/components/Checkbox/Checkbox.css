@@ -1,0 +1,37 @@
+.checkbox-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .checkbox-input {
+    display: none; /* Скрыть сам чекбокс */
+  }
+  
+  .checkbox-custom {
+    width: 30px; /* Размер квадрата чекбокса */
+    height: 30px;
+    border: 2px solid #000; /* Черная обводка */
+    background-color: #fff; /* Белый цвет фона */
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+  }
+  
+  .checkbox-custom::after {
+    content: 'X'; /* Черный крестик внутри квадрата */
+    font-size: 12px;
+    font-weight: bold;
+    font-family: 'Press Start 2P';
+    color: #000;
+    position: absolute;
+    top: 55%;
+    left: 55%;
+    align-self: center;
+    transform: translate(-50%, -50%);
+    opacity: 0; /* По умолчанию не отображается */
+  }
+  
+  .checkbox-input:checked + .checkbox-custom::after {
+    opacity: 1; /* Показываем крестик, если чекбокс отмечен */
+  }
+  

@@ -1,4 +1,5 @@
 import React from 'react';
+import './Checkbox.css'; // Подключаем файл стилей для Checkbox
 
 const Checkbox = ({ label, checked, onChange }) => {
   const handleToggle = () => {
@@ -7,9 +8,15 @@ const Checkbox = ({ label, checked, onChange }) => {
 
   return (
     <div className="checkbox-container">
-      <label>
+      <label className="checkbox-label">
+        <input
+          type="checkbox"
+          checked={checked}
+          onChange={handleToggle}
+          className="checkbox-input"
+        />
+        <span className="checkbox-custom" />
         {label}
-        <input type="checkbox" checked={checked} onChange={handleToggle} />
       </label>
     </div>
   );
