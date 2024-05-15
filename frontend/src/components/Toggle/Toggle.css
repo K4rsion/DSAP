@@ -1,0 +1,27 @@
+.toggle {
+    border: 7px solid #ffffff;
+    display: inline-block;
+    width: 72px;
+    height: 32px;
+    background: #ffffff;
+    padding: 0;
+    cursor: pointer;
+    position: relative;
+    transition-duration: 0.3s;
+    margin-bottom: 30px;
+}
+
+.knob {
+    height: 24px;
+    width: 24px;
+    background: #000;
+    transition-duration: 0.3s;
+    position: absolute;
+    top: 50%;
+    transform: translate(0%, -50%);
+    transition: transform 0.2s ease;
+}
+
+.toggle.active .knob {
+    transform: translate(calc(100% + 10px), -50%);
+}

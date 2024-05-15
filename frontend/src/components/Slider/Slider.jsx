@@ -21,7 +21,11 @@ const Slider = ({ sliderType }) => {
   };
 
   const handlePointerUp = () => {
-    Client.changeSliderValue(setSliderValue);
+    if (sliderType === 'volume') {
+      Client.changeVolumeValue(setSliderValue);
+    } else if (sliderType === 'pitch') {
+      Client.changePitchValue(setSliderValue);
+    }
   };
 
   return (

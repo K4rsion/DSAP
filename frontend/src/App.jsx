@@ -1,5 +1,6 @@
 import React from 'react';
 import Slider from './components/Slider/Slider';
+import Toggle from './components/Toggle/Toggle';
 
 function App() {
   return (
@@ -9,6 +10,8 @@ function App() {
       <Slider sliderType="volume"/>
       <h2 className="bit-cell-font text-4xl text-white mb-4">pitch level:</h2>
       <Slider sliderType="pitch"/>
+      <h2 className="bit-cell-font text-4xl text-white mb-4">echo:</h2>
+      <Toggle />
     </div>
   );
 }
