@@ -2,16 +2,22 @@ import React, { useState } from 'react';
 import { Client } from '../../Client';
 import './Toggle.css';
 
-const Toggle = () => {
+const Toggle = ({ enabled }) => {
   const [isOn, setIsOn] = useState(false);
 
   const toggleSwitch = () => {
-    setIsOn((prevState) => !prevState); 
-    Client.setEcho(setIsOn);
+    if (enabled) {
+      setIsOn((prevState) => !prevState);
+      Client.setEcho(isOn);
+    }
   };
 
   return (
-    <div className={`toggle ${isOn ? 'active' : ''}`} onClick={toggleSwitch}>
+    <div
+      className={`toggle ${isOn ? 'active' : ''}`}
+      onClick={toggleSwitch}
+      disabled={!enabled}
+    >
       <div className="knob" />
     </div>
   );
