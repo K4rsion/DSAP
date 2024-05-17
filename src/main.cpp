@@ -4,7 +4,6 @@
 #include <SPIFFS.h>
 #include "ESPAsyncWebServer.h"
 #include "AsyncTCP.h"
-#include "ArduinoJson.h"
 
 #define ssid "DSAP"
 #define password "12345678"
@@ -19,18 +18,22 @@ AudioEffectStream effects(out);
 FormatConverterStream conv(effects);
 StreamCopy copier(conv, in);
 
-// Эффекты
+Boost boost(1.0);  // громкость
 PitchShift pitchShift(1.0, 1000);
-Compressor compressor(44100, 30, 20, 10, 10, 0.5);
-Boost boost(1.0);
 Distortion distortion(4990, 6500);
-Fuzz fuzz(6.5, 300);
+Delay delayEffect(450, 0.5, 1.0, 44100);
 Tremolo tremolo(2000, 50, 44100);
-//Delay delayEffect(1000, 0.5, 1.0, 44100);  // не хватает памяти?
-ADSRGain adsrGain(0.001, 0.001, 0.5, 0.005, 1.0);
+
+//delay:
+//duration = 100-450
+//depth = 0.1-1.5
+//feedback = 0.1-1.5 (>= 1.0 - жесткое нарастание звука)
+//
+//tremolo:
+//duration = 50-250
+//depthPercent = 0-100
 
 
-/////////////////////////
 IPAddress ip(192, 168, 1, 1);
 IPAddress gateway(192, 168, 1, 1);
 IPAddress subnet(255, 255, 255, 0);
@@ -49,6 +52,32 @@ void router() {
         request->send(SPIFFS, "/script.js", "text/javascript");
     });
 
+
+    //"http://192.168.1.1/pitch?valueValue=1.0"
+    server.on("/volume", HTTP_PUT, [](AsyncWebServerRequest *request) {
+        if (request->hasParam("volumeValue")) {
+            String volumeValueStr = request->getParam("volumeValue")->value();
+            float volumeValue = volumeValueStr.toFloat();
+            boost.setVolume(volumeValue);
+        }
+        request->send(200, "text/plain", "OK");
+    });
+
+
+    server.on("/pitchOn", HTTP_PUT, [](AsyncWebServerRequest *request) {
+        if (!pitchShift.active()) {
+            pitchShift.setActive(true);
+        }
+        request->send(200, "text/plain", "OK");
+    });
+
+    server.on("/pitchOff", HTTP_PUT, [](AsyncWebServerRequest *request) {
+        if (pitchShift.active()) {
+            pitchShift.setActive(false);
+        }
+        request->send(200, "text/plain", "OK");
+    });
+
     //"http://192.168.1.1/pitch?shiftValue=1.0"
     server.on("/pitch", HTTP_PUT, [](AsyncWebServerRequest *request) {
         if (request->hasParam("shiftValue")) {
@@ -59,19 +88,135 @@ void router() {
         request->send(200, "text/plain", "OK");
     });
 
+
+    server.on("/distortionOn", HTTP_PUT, [](AsyncWebServerRequest *request) {
+        if (!distortion.active()) {
+            distortion.setActive(true);
+        }
+        request->send(200, "text/plain", "OK");
+    });
+
+    server.on("/distortionOff", HTTP_PUT, [](AsyncWebServerRequest *request) {
+        if (distortion.active()) {
+            distortion.setActive(false);
+        }
+        request->send(200, "text/plain", "OK");
+    });
+
+    server.on("/distortion", HTTP_PUT, [](AsyncWebServerRequest *request) {
+        if (request->hasParam("clipThreshold")) {
+            String clipThresholdStr = request->getParam("clipThreshold")->value();
+            int16_t clipThreshold = clipThresholdStr.toInt();
+            distortion.setClipThreashold(clipThreshold);
+        }
+
+        if (request->hasParam("maxInput")) {
+            String maxInputStr = request->getParam("maxInput")->value();
+            int16_t maxInput = maxInputStr.toInt();
+            distortion.setMaxInput(maxInput);
+        }
+
+        request->send(200, "text/plain", "OK");
+    });
+
+
+    server.on("/delayOn", HTTP_PUT, [](AsyncWebServerRequest *request) {
+        if (!delayEffect.active()) {
+            delayEffect.setActive(true);
+        }
+        request->send(200, "text/plain", "OK");
+    });
+
+    server.on("/delayOff", HTTP_PUT, [](AsyncWebServerRequest *request) {
+        if (delayEffect.active()) {
+            delayEffect.setActive(false);
+        }
+        request->send(200, "text/plain", "OK");
+    });
+
+    server.on("/delay", HTTP_PUT, [](AsyncWebServerRequest *request) {
+        if (request->hasParam("duration")) {
+            String durationStr = request->getParam("duration")->value();
+            uint16_t duration = durationStr.toInt();
+            delayEffect.setDuration(duration);
+        }
+
+        if (request->hasParam("depth")) {
+            String depthStr = request->getParam("depth")->value();
+            float depth = depthStr.toFloat();
+            delayEffect.setDepth(depth);
+        }
+
+        if (request->hasParam("feedbackAmount")) {
+            String feedbackAmountStr = request->getParam("feedbackAmount")->value();
+            float feedbackAmount = feedbackAmountStr.toFloat();
+            delayEffect.setFeedback(feedbackAmount);
+        }
+
+        request->send(200, "text/plain", "OK");
+    });
+
+
+
+    server.on("/tremoloOn", HTTP_PUT, [](AsyncWebServerRequest *request) {
+        if (!tremolo.active()) {
+            tremolo.setActive(true);
+        }
+        request->send(200, "text/plain", "OK");
+    });
+
+    server.on("/tremoloOff", HTTP_PUT, [](AsyncWebServerRequest *request) {
+        if (tremolo.active()) {
+            tremolo.setActive(false);
+        }
+        request->send(200, "text/plain", "OK");
+    });
+
+    server.on("/tremolo", HTTP_PUT, [](AsyncWebServerRequest *request) {
+        if (request->hasParam("duration")) {
+            String durationStr = request->getParam("duration")->value();
+            int16_t duration = durationStr.toInt();
+            tremolo.setDuration(duration);
+        }
+
+        if (request->hasParam("depthPercent")) {
+            String depthStr = request->getParam("depthPercent")->value();
+            uint8_t depth = depthStr.toInt();
+            tremolo.setDepth(depth);
+        }
+
+        request->send(200, "text/plain", "OK");
+    });
+
+
+
     //clear all effects
     server.on("/clear", HTTP_PUT, [](AsyncWebServerRequest *request) {
-        //effects.clear(); // очищает вообще все без возможности снова использовать эффект
-        // нужно пройтись по всем подключенным фильтрам и восстановить дефолтные параметры
+
+        pitchShift.setValue(1.0);
+        pitchShift.setActive(false);
+
+        distortion.setClipThreashold(4990);
+        distortion.setMaxInput(6500);
+        distortion.setActive(false);
+
+        delayEffect.setDuration(450);
+        delayEffect.setDepth(0.5);
+        delayEffect.setFeedback(1.0);
+        delayEffect.setActive(false);
+
+        tremolo.setDuration(2000);
+        tremolo.setDepth(50);
+        tremolo.setActive(false);
+
         request->send(200, "text/plain", "OK");
     });
 }
 
-/*
- * Configure the server and start it.
- */
+
 void start_server() {
     SPIFFS.begin();
+    router();
     WiFi.softAP(ssid, password);
     delay(500);
     WiFi.softAPConfig(ip, gateway, subnet);
@@ -81,13 +226,11 @@ void start_server() {
     server.begin();
 }
 
-/////////////////////////
 
 void setup() {
 //    Serial.begin(115200);
 //    AudioLogger::instance().begin(Serial, AudioLogger::Info);
 
-    router();
     start_server();
 
     Serial.println("starting ADC...");
@@ -117,13 +260,22 @@ void setup() {
     Serial.println("DAC started...");
 
     // Эффекты
+    pitchShift.setActive(false);
+    distortion.setActive(false);
+    delayEffect.setActive(false);
+    tremolo.setActive(false);
+
+
+    effects.addEffect(boost);
     effects.addEffect(pitchShift);
+    effects.addEffect(distortion);
+    effects.addEffect(delayEffect);
+    effects.addEffect(tremolo);
     effects.begin(info16);
 
     Serial.println("Starting conv...");
     conv.begin(info32, info16);
     Serial.println("Conv started...");
-
 }
 
 void loop() {
