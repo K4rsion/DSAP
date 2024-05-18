@@ -3,11 +3,12 @@ import Slider from './components/Slider/Slider';
 import Toggle from './components/Toggle/Toggle';
 import Checkbox from './components/Checkbox/Checkbox';
 import { Client } from './Client';
+import './App.css'; // Подключаем стили для компонента App
 
 function App() {
   const [isVolumeEnabled, setIsVolumeEnabled] = useState(true);
-  const [isPitchEnabled, setIsPitchEnabled] = useState(true);
-  const [isEchoEnabled, setIsEchoEnabled] = useState(true); // Состояние чекбокса для "echo"
+  const [isPitchEnabled, setIsPitchEnabled] = useState(false);
+  const [isEchoEnabled, setIsEchoEnabled] = useState(false);
 
   const handleVolumeChange = (enabled) => {
     setIsVolumeEnabled(enabled);
@@ -22,32 +23,38 @@ function App() {
   };
 
   return (
-    <div className="w-full bg-black h-screen flex flex-col items-center justify-center">
+    <div className="app-container">
       <h1 className="press-start-2p-font text-7xl text-white">DSAP</h1>
 
-      <h2 className="bit-cell-font text-4xl text-white mb-4">volume level:</h2>
-      <Slider sliderType="volume" enabled={isVolumeEnabled} />
-      <Checkbox
-        label="Enable Volume"
-        checked={isVolumeEnabled}
-        onChange={handleVolumeChange}
-      />
+      <div className="filters-container">
+        <div className="filter">
+          <h2 className="filter-header bit-cell-font text-4xl text-white mb-4">
+            volume level:
+          </h2>
+          <Slider sliderType="volume" enabled={isVolumeEnabled} />
+          {/* <Checkbox checked={isVolumeEnabled} onChange={handleVolumeChange} /> */}
+        </div>
 
-      <h2 className="bit-cell-font text-4xl text-white mb-4">pitch level:</h2>
-      <Slider sliderType="pitch" enabled={isPitchEnabled} />
-      <Checkbox
-        label="Enable Pitch"
-        checked={isPitchEnabled}
-        onChange={handlePitchChange}
-      />
+        <div className="filter">
+          <h2 className="filter-header bit-cell-font text-4xl text-white mb-4">
+            pitch level:
+          </h2>
+          <Slider sliderType="pitch" enabled={isPitchEnabled} />
+          <Checkbox
+            checked={isPitchEnabled}
+            onChange={handlePitchChange}
+            checkBoxType="pitch"
+          />
+        </div>
 
-      <h2 className="bit-cell-font text-4xl text-white mb-4">echo:</h2>
-      <Toggle enabled={isEchoEnabled} />
-      <Checkbox
-        label="Enable Echo"
-        checked={isEchoEnabled}
-        onChange={handleEchoChange}
-      />
+        {/* <div className="filter">
+          <h2 className="filter-header bit-cell-font text-4xl text-white mb-4">
+            echo:
+          </h2>
+          <Toggle enabled={isEchoEnabled} />
+          <Checkbox checked={isEchoEnabled} onChange={handleEchoChange} />
+        </div> */}
+      </div>
     </div>
   );
 }

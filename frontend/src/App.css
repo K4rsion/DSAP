@@ -1,0 +1,29 @@
+/* App.css */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    background-color: #000;
+  }
+  
+  .filters-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Размещение элементов в столбик слева */
+    gap: 20px; /* Пространство между элементами */
+  }
+  
+  .filter {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .filter-header {
+    margin-bottom: 10px;
+  }
+  
