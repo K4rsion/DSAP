@@ -53,8 +53,4 @@ Contributions to this project are welcome! If you have suggestions for improveme
 ### Credits
 - Developed by [K4rsion](https://github.com/K4rsion), [buljad](https://github.com/buljad), [SSKaZZDom](https://github.com/SSKaZZDom)
 - Inspired by [mordv](https://github.com/mordv)
-
-### Contact
-For inquiries or support, please contact [Your Email].
-
 ---
