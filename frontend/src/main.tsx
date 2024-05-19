@@ -3,12 +3,12 @@ import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
 import './index.css';
 
-const container = document.getElementById(`root`);
+const container = document.getElementById('root');
 const root = createRoot(container!);
 
 root.render(
   <React.StrictMode>
-    <div className="w-full h-auto items-center justify-normal">
+    <div className="w-full h-full flex items-center justify-center">
       <App />
     </div>
   </React.StrictMode>
