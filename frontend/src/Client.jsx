@@ -2,9 +2,15 @@ const url = 'http://192.168.1.1';
 
 export const Client = {
   changeVolumeValue: (newValue) => {
-    const urlToSend = `${url}/volume?volumeValue=${newValue}`;
-    if (!newValue) return; // Не отправляем запрос, если фильтр выключен
-    return fetch(urlToSend).then((response) => {
+    const urlToSend = `${url}/volume`;
+    if (!newValue && newValue !== 0) return; // Не отправляем запрос, если фильтр выключен
+    return fetch(urlToSend, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ volumeValue: newValue })
+    }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -13,9 +19,15 @@ export const Client = {
   },
 
   changePitchValue: (newValue) => {
-    const urlToSend = `${url}/pitch?pitchShift=${newValue}`;
-    if (!newValue) return; // Не отправляем запрос, если фильтр выключен
-    return fetch(urlToSend).then((response) => {
+    const urlToSend = `${url}/pitch`;
+    if (!newValue && newValue !== 0) return; // Не отправляем запрос, если фильтр выключен
+    return fetch(urlToSend, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ pitchShift: newValue })
+    }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -24,9 +36,15 @@ export const Client = {
   },
 
   changeDistortionMIValue: (newValue) => {
-    const urlToSend = `${url}/distortion?maxInput=${newValue}`;
-    if (!newValue) return; // Не отправляем запрос, если фильтр выключен
-    return fetch(urlToSend).then((response) => {
+    const urlToSend = `${url}/distortion`;
+    if (!newValue && newValue !== 0) return; // Не отправляем запрос, если фильтр выключен
+    return fetch(urlToSend, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ maxInput: newValue })
+    }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -35,9 +53,15 @@ export const Client = {
   },
 
   changeDistortionCTValue: (newValue) => {
-    const urlToSend = `${url}/distortion?clipThreshold=${newValue}`;
-    if (!newValue) return; // Не отправляем запрос, если фильтр выключен
-    return fetch(urlToSend).then((response) => {
+    const urlToSend = `${url}/distortion`;
+    if (!newValue && newValue !== 0) return; // Не отправляем запрос, если фильтр выключен
+    return fetch(urlToSend, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ clipThreshold: newValue })
+    }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -46,9 +70,15 @@ export const Client = {
   },
 
   changeTremoloDurationValue: (newValue) => {
-    const urlToSend = `${url}/tremolo?duration=${newValue}`;
-    if (!newValue) return; // Не отправляем запрос, если фильтр выключен
-    return fetch(urlToSend).then((response) => {
+    const urlToSend = `${url}/tremolo`;
+    if (!newValue && newValue !== 0) return; // Не отправляем запрос, если фильтр выключен
+    return fetch(urlToSend, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ duration: newValue })
+    }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -57,25 +87,31 @@ export const Client = {
   },
 
   changeTremoloDPValue: (newValue) => {
-    const urlToSend = `${url}/tremolo?depthPercent=${newValue}`;
-    if (!newValue) return; // Не отправляем запрос, если фильтр выключен
-    return fetch(urlToSend).then((response) => {
+    const urlToSend = `${url}/tremolo`;
+    if (!newValue && newValue !== 0) return; // Не отправляем запрос, если фильтр выключен
+    return fetch(urlToSend, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ depthPercent: newValue })
+    }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
       return response.json();
     });
   },
-  
 
   pitchState: (newState) => {
-    var urlToSend = `${url}/pitch?enabled=${newState}`;
-    if (!newState) {
-      urlToSend = `${url}/pitch?enabled=${0}`;
-    } else {
-      urlToSend = `${url}/pitch?enabled=${1}`;
-    }
-    return fetch(urlToSend).then((response) => {
+    const urlToSend = `${url}/pitch`;
+    return fetch(urlToSend, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ enabled: newState ? 1 : 0 })
+    }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -84,13 +120,14 @@ export const Client = {
   },
 
   distortionState: (newState) => {
-    var urlToSend = `${url}/distortion?enabled=${newState}`;
-    if (!newState) {
-      urlToSend = `${url}/distortion?enabled=${0}`;
-    } else {
-      urlToSend = `${url}/distortion?enabled=${1}`;
-    }
-    return fetch(urlToSend).then((response) => {
+    const urlToSend = `${url}/distortion`;
+    return fetch(urlToSend, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ enabled: newState ? 1 : 0 })
+    }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -99,13 +136,14 @@ export const Client = {
   },
 
   tremoloState: (newState) => {
-    var urlToSend = `${url}/tremolo?enabled=${newState}`;
-    if (!newState) {
-      urlToSend = `${url}/tremolo?enabled=${0}`;
-    } else {
-      urlToSend = `${url}/tremolo?enabled=${1}`;
-    }
-    return fetch(urlToSend).then((response) => {
+    const urlToSend = `${url}/tremolo`;
+    return fetch(urlToSend, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ enabled: newState ? 1 : 0 })
+    }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }

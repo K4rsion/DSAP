@@ -48,7 +48,7 @@ function App() {
             />
           </div>
           <div className="filter">
-            <h2 className="bit-cell-font text-4xl text-white mb-2">pitch:</h2>
+            <h2 className="bit-cell-font text-4xl text-white mt-11 mb-2">pitch:</h2>
             <Slider
               sliderType="pitch"
               value={pitch}
