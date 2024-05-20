@@ -69,8 +69,8 @@ export const Client = {
     });
   },
 
-  changeTremoloDurationValue: (newValue) => {
-    const urlToSend = `${url}/tremolo`;
+  changeDelayDurationValue: (newValue) => {
+    const urlToSend = `${url}/delay`;
     if (!newValue && newValue !== 0) return; // Не отправляем запрос, если фильтр выключен
     return fetch(urlToSend, {
       method: 'PUT',
@@ -86,15 +86,32 @@ export const Client = {
     });
   },
 
-  changeTremoloDPValue: (newValue) => {
-    const urlToSend = `${url}/tremolo`;
+  changeDelayDepthValue: (newValue) => {
+    const urlToSend = `${url}/delay`;
     if (!newValue && newValue !== 0) return; // Не отправляем запрос, если фильтр выключен
     return fetch(urlToSend, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ depthPercent: newValue })
+      body: JSON.stringify({ depth: newValue })
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    });
+  },
+
+  changeDelayFAValue: (newValue) => {
+    const urlToSend = `${url}/delay`;
+    if (!newValue && newValue !== 0) return; // Не отправляем запрос, если фильтр выключен
+    return fetch(urlToSend, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ feedbackAmount: newValue })
     }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -135,14 +152,30 @@ export const Client = {
     });
   },
 
-  tremoloState: (newState) => {
-    const urlToSend = `${url}/tremolo`;
+  delayState: (newState) => {
+    const urlToSend = `${url}/delay`;
     return fetch(urlToSend, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ enabled: newState ? 1 : 0 })
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    });
+  },
+
+  resetEffects: () => {
+    const urlToSend = `${url}/clear`;
+    return fetch(urlToSend, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({})
     }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');

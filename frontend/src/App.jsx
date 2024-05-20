@@ -2,39 +2,45 @@ import React, { useState } from 'react';
 import Slider from './components/Slider/Slider';
 import Checkbox from './components/Checkbox/Checkbox';
 import Button from './components/Button/Button';
-import './App.css'; // Подключаем стили для компонента App
+import './App.css';
 
 function App() {
-  const [volume, setVolume] = useState(0);
-  const [pitch, setPitch] = useState(0);
-  const [tremoloDuration, setTremoloDuration] = useState(0);
-  const [tremoloDepthPercent, setTremoloDepthPercent] = useState(0);
-  const [distortionClipThreshold, setDistortionClipThreshold] = useState(0);
-  const [distortionMaxInput, setDistortionMaxInput] = useState(0);
+  const [volume, setVolume] = useState(1.0);
+  const [pitch, setPitch] = useState(1.0);
+  const [delayDuration, setDelayDuration] = useState(275);
+  const [delayDepth, setDelayDepth] = useState(0.8);
+  const [delayFeedbackAmount, setDelayFeedbackAmount] = useState(0.8);
+  const [distortionClipThreshold, setDistortionClipThreshold] = useState(3500);
+  const [distortionMaxInput, setDistortionMaxInput] = useState(3500);
   const [isVolumeEnabled, setIsVolumeEnabled] = useState(true);
   const [isPitchEnabled, setIsPitchEnabled] = useState(false);
   const [isDistortionEnabled, setIsDistortionEnabled] = useState(false);
-  const [isTremoloEnabled, setIsTremoloEnabled] = useState(false);
-  const [isEchoEnabled, setIsEchoEnabled] = useState(false);
+  const [isDelayEnabled, setIsDelayEnabled] = useState(false);
 
   const resetEffects = () => {
-    setVolume(0);
-    setPitch(0);
-    setTremoloDepthPercent(0);
-    setTremoloDuration(0);
-    setDistortionClipThreshold(0);
-    setDistortionMaxInput(0);
+    console.log('Resetting states...');
+    setVolume(1.0);
+    setPitch(1.0);
+    setDelayDuration(275);
+    setDelayDepth(0.8);
+    setDelayFeedbackAmount(0.8);
+    setDistortionClipThreshold(3500);
+    setDistortionMaxInput(3500);
+    setIsVolumeEnabled(true);
     setIsPitchEnabled(false);
     setIsDistortionEnabled(false);
-    setIsTremoloEnabled(false);
-    setIsEchoEnabled(false);
+    setIsDelayEnabled(false);
+    console.log('States after reset:', {
+      volume, pitch, delayDuration, delayDepth, delayFeedbackAmount, distortionClipThreshold, distortionMaxInput,
+      isVolumeEnabled, isPitchEnabled, isDistortionEnabled, isDelayEnabled
+    });
   };
 
   return (
     <div className="app-container">
       <div className="header-container">
         <h1 className="press-start-2p-font text-7xl text-white">DSAP</h1>
-        <Button onClick={resetEffects} /> 
+        <Button onClick={resetEffects} />
       </div>
       <div className="three-column-container">
         <div className="three-column-inner-container">
@@ -48,7 +54,9 @@ function App() {
             />
           </div>
           <div className="filter">
-            <h2 className="bit-cell-font text-4xl text-white mt-11 mb-2">pitch:</h2>
+            <h2 className="bit-cell-font text-4xl text-white mt-11 mb-2">
+              pitch:
+            </h2>
             <Slider
               sliderType="pitch"
               value={pitch}
@@ -65,27 +73,34 @@ function App() {
 
         <div className="three-column-inner-container">
           <div className="filter">
-            <h2 className="bit-cell-font text-4xl text-white mb-2">tremolo:</h2>
+            <h2 className="bit-cell-font text-4xl text-white mb-2">delay:</h2>
             <h3 className="bit-cell-font text-white text-3xl">duration:</h3>
             <Slider
-              sliderType="tremoloDuration"
-              value={tremoloDuration}
-              onChange={setTremoloDuration}
-              enabled={isTremoloEnabled}
+              sliderType="delayDuration"
+              value={delayDuration}
+              onChange={setDelayDuration}
+              enabled={isDelayEnabled}
             />
-            <h4 className="bit-cell-font text-white text-3xl">
-              depth percent:
-            </h4>
+            <h4 className="bit-cell-font text-white text-3xl">depth:</h4>
             <Slider
-              sliderType="tremoloDepthPercent"
-              value={tremoloDepthPercent}
-              onChange={setTremoloDepthPercent}
-              enabled={isTremoloEnabled}
+              sliderType="delayDepth"
+              value={delayDepth}
+              onChange={setDelayDepth}
+              enabled={isDelayEnabled}
+            />
+            <h5 className="bit-cell-font text-white text-3xl">
+              feedback amount:
+            </h5>
+            <Slider
+              sliderType="delayFeedbackAmount"
+              value={delayFeedbackAmount}
+              onChange={setDelayFeedbackAmount}
+              enabled={isDelayEnabled}
             />
             <Checkbox
-              checked={isTremoloEnabled}
-              onChange={() => setIsTremoloEnabled(!isTremoloEnabled)}
-              checkBoxType="tremolo"
+              checked={isDelayEnabled}
+              onChange={() => setIsDelayEnabled(!isDelayEnabled)}
+              checkBoxType="delay"
             />
           </div>
         </div>

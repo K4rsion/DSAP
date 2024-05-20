@@ -4,13 +4,14 @@ import './Checkbox.css';
 
 const Checkbox = ({ checked, onChange, checkBoxType }) => {
   const handleToggle = () => {
-    onChange(!checked);
+    const newCheckedState = !checked;
+    onChange(newCheckedState);
     if (checkBoxType === 'pitch') {
-      Client.pitchState(!checked);
+      Client.pitchState(newCheckedState);
     } else if (checkBoxType === 'distortion') {
-      Client.distortionState(!checked);
-    } else if (checkBoxType === 'tremolo') {
-      Client.tremoloState(!checked);
+      Client.distortionState(newCheckedState);
+    } else if (checkBoxType === 'delay') {
+      Client.delayState(newCheckedState);
     }
   };
 
