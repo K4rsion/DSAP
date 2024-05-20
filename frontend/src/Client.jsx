@@ -170,7 +170,7 @@ export const Client = {
     });
   },
 
-  getState: () => {
+  getState: async () => {
     const urlToSend = `${url}/state`;
     return fetch(urlToSend, {
       method: 'GET',

@@ -18,8 +18,34 @@ function App() {
   const [isDistortionEnabled, setIsDistortionEnabled] = useState(false);
   const [isDelayEnabled, setIsDelayEnabled] = useState(false);
 
+
+
+  //если не заработает запрос /state, то можешь это вот просто закомментить и без него попробовать
+  useEffect(() => {
+    const fetchState = async () => {
+      try {
+        const response = await Client.getState();
+        const data = await response.json();
+        setVolume(data.volume);
+        setPitch(data.pitchShiftValue);
+        setDelayDuration(data.delayDuration);
+        setDelayDepth(data.delayDepth);
+        setDelayFeedbackAmount(data.delayFeedback);
+        setDistortionClipThreshold(data.clipThreshold);
+        setDistortionMaxInput(data.maxInput);
+        setIsVolumeEnabled(true);
+        setIsPitchEnabled(data.pitchEnabled === 1);
+        setIsDistortionEnabled(data.distortionEnabled === 1);
+        setIsDelayEnabled(data.delayEnabled === 1);
+      } catch (error) {
+        console.error('Failed to fetch state', error);
+      }
+    };
+
+    fetchState();
+  }, []);
+
   const resetEffects = () => {
-    // Сначала обновляем состояние
     setVolume(1.0);
     setPitch(1.0);
     setDelayDuration(275);
@@ -32,14 +58,10 @@ function App() {
     setIsDistortionEnabled(false);
     setIsDelayEnabled(false);
 
-    // Затем выполняем асинхронный запрос
+    // Отправляем запрос на сброс эффектов
     Client.resetEffects()
-      .then(() => {
-        console.log('Effects successfully reset on server');
-      })
-      .catch((error) => {
-        console.error('Failed to reset effects', error);
-      });
+      .then(() => console.log('Effects reset successfully'))
+      .catch(error => console.error('Failed to reset effects', error));
   };
 
   return (
@@ -60,9 +82,7 @@ function App() {
             />
           </div>
           <div className="filter">
-            <h2 className="bit-cell-font text-4xl text-white mt-11 mb-2">
-              pitch:
-            </h2>
+            <h2 className="bit-cell-font text-4xl text-white mt-11 mb-2">pitch:</h2>
             <Slider
               sliderType="pitch"
               value={pitch}
@@ -94,9 +114,7 @@ function App() {
               onChange={setDelayDepth}
               enabled={isDelayEnabled}
             />
-            <h5 className="bit-cell-font text-white text-3xl">
-              feedback amount:
-            </h5>
+            <h5 className="bit-cell-font text-white text-3xl">feedback amount:</h5>
             <Slider
               sliderType="delayFeedbackAmount"
               value={delayFeedbackAmount}
@@ -113,12 +131,8 @@ function App() {
 
         <div className="three-column-inner-container">
           <div className="filter">
-            <h2 className="bit-cell-font text-4xl text-white mb-2">
-              distortion:
-            </h2>
-            <h3 className="bit-cell-font text-white text-3xl">
-              clip threshold:
-            </h3>
+            <h2 className="bit-cell-font text-4xl text-white mb-2">distortion:</h2>
+            <h3 className="bit-cell-font text-white text-3xl">clip threshold:</h3>
             <Slider
               sliderType="distortionClipThreshold"
               value={distortionClipThreshold}
