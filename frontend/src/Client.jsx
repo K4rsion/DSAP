@@ -2,14 +2,13 @@ const url = 'http://192.168.1.1';
 
 export const Client = {
   changeVolumeValue: (newValue) => {
-    const urlToSend = `${url}/volume`;
-    if (!newValue && newValue !== 0) return; // Не отправляем запрос, если фильтр выключен
+    const urlToSend = `${url}/volume?volumeValue=${newValue}`;
+    if (newValue === undefined || newValue === null) return;
     return fetch(urlToSend, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ volumeValue: newValue }),
     }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -19,14 +18,13 @@ export const Client = {
   },
 
   changePitchValue: (newValue) => {
-    const urlToSend = `${url}/pitch`;
-    if (!newValue && newValue !== 0) return; // Не отправляем запрос, если фильтр выключен
+    const urlToSend = `${url}/pitch?shiftValue=${newValue}`;
+    if (newValue === undefined || newValue === null) return;
     return fetch(urlToSend, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ pitchShift: newValue }),
     }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -36,14 +34,13 @@ export const Client = {
   },
 
   changeDistortionMIValue: (newValue) => {
-    const urlToSend = `${url}/distortion`;
-    if (!newValue && newValue !== 0) return; // Не отправляем запрос, если фильтр выключен
+    const urlToSend = `${url}/distortion?maxInput=${newValue}`;
+    if (newValue === undefined || newValue === null) return;
     return fetch(urlToSend, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ maxInput: newValue }),
     }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -53,14 +50,13 @@ export const Client = {
   },
 
   changeDistortionCTValue: (newValue) => {
-    const urlToSend = `${url}/distortion`;
-    if (!newValue && newValue !== 0) return; // Не отправляем запрос, если фильтр выключен
+    const urlToSend = `${url}/distortion?clipThreshold=${newValue}`;
+    if (newValue === undefined || newValue === null) return;
     return fetch(urlToSend, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ clipThreshold: newValue }),
     }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -70,14 +66,13 @@ export const Client = {
   },
 
   changeDelayDurationValue: (newValue) => {
-    const urlToSend = `${url}/delay`;
-    if (!newValue && newValue !== 0) return; // Не отправляем запрос, если фильтр выключен
+    const urlToSend = `${url}/delay?duration=${newValue}`;
+    if (newValue === undefined || newValue === null) return;
     return fetch(urlToSend, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ duration: newValue }),
     }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -87,14 +82,13 @@ export const Client = {
   },
 
   changeDelayDepthValue: (newValue) => {
-    const urlToSend = `${url}/delay`;
-    if (!newValue && newValue !== 0) return; // Не отправляем запрос, если фильтр выключен
+    const urlToSend = `${url}/delay?depth=${newValue}`;
+    if (newValue === undefined || newValue === null) return;
     return fetch(urlToSend, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ depth: newValue }),
     }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -104,14 +98,13 @@ export const Client = {
   },
 
   changeDelayFAValue: (newValue) => {
-    const urlToSend = `${url}/delay`;
-    if (!newValue && newValue !== 0) return; // Не отправляем запрос, если фильтр выключен
+    const urlToSend = `${url}/delay?feedbackAmount=${newValue}`;
+    if (newValue === undefined || newValue === null) return;
     return fetch(urlToSend, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ feedbackAmount: newValue }),
     }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -121,13 +114,9 @@ export const Client = {
   },
 
   pitchState: (newState) => {
-    const urlToSend = `${url}/pitch`;
+    const urlToSend = `${url}/pitch?enabled=${newState ? 1 : 0}`;
     return fetch(urlToSend, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ enabled: newState ? 1 : 0 }),
     }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -137,13 +126,12 @@ export const Client = {
   },
 
   distortionState: (newState) => {
-    const urlToSend = `${url}/distortion`;
+    const urlToSend = `${url}/distortion?enabled=${newState ? 1 : 0}`;
     return fetch(urlToSend, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ enabled: newState ? 1 : 0 }),
     }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -153,13 +141,12 @@ export const Client = {
   },
 
   delayState: (newState) => {
-    const urlToSend = `${url}/delay`;
+    const urlToSend = `${url}/delay?enabled=${newState ? 1 : 0}`;
     return fetch(urlToSend, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ enabled: newState ? 1 : 0 }),
     }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -175,7 +162,21 @@ export const Client = {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({}),
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json(); // исправление для возврата ответа
+    });
+  },
+
+  getState: () => {
+    const urlToSend = `${url}/state`;
+    return fetch(urlToSend, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');

@@ -16,7 +16,7 @@ const fetchInitialState = async () => {
 // Функция для отправки измененного состояния
 const sendUpdatedState = async (state) => {
   const response = await fetch('/state', {
-    method: 'POST',
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
