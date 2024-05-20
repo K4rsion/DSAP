@@ -7,9 +7,9 @@ export const Client = {
     return fetch(urlToSend, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ volumeValue: newValue })
+      body: JSON.stringify({ volumeValue: newValue }),
     }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -24,9 +24,9 @@ export const Client = {
     return fetch(urlToSend, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ pitchShift: newValue })
+      body: JSON.stringify({ pitchShift: newValue }),
     }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -41,9 +41,9 @@ export const Client = {
     return fetch(urlToSend, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ maxInput: newValue })
+      body: JSON.stringify({ maxInput: newValue }),
     }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -58,9 +58,9 @@ export const Client = {
     return fetch(urlToSend, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ clipThreshold: newValue })
+      body: JSON.stringify({ clipThreshold: newValue }),
     }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -75,9 +75,9 @@ export const Client = {
     return fetch(urlToSend, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ duration: newValue })
+      body: JSON.stringify({ duration: newValue }),
     }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -92,9 +92,9 @@ export const Client = {
     return fetch(urlToSend, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ depth: newValue })
+      body: JSON.stringify({ depth: newValue }),
     }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -109,9 +109,9 @@ export const Client = {
     return fetch(urlToSend, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ feedbackAmount: newValue })
+      body: JSON.stringify({ feedbackAmount: newValue }),
     }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -125,9 +125,9 @@ export const Client = {
     return fetch(urlToSend, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ enabled: newState ? 1 : 0 })
+      body: JSON.stringify({ enabled: newState ? 1 : 0 }),
     }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -141,9 +141,9 @@ export const Client = {
     return fetch(urlToSend, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ enabled: newState ? 1 : 0 })
+      body: JSON.stringify({ enabled: newState ? 1 : 0 }),
     }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -157,9 +157,9 @@ export const Client = {
     return fetch(urlToSend, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ enabled: newState ? 1 : 0 })
+      body: JSON.stringify({ enabled: newState ? 1 : 0 }),
     }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -173,9 +173,9 @@ export const Client = {
     return fetch(urlToSend, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({})
+      body: JSON.stringify({}),
     }).then((response) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');

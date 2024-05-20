@@ -1,8 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Slider from './components/Slider/Slider';
 import Checkbox from './components/Checkbox/Checkbox';
 import Button from './components/Button/Button';
 import './App.css';
+
+// Функция для получения начального состояния
+const fetchInitialState = async () => {
+  const response = await fetch('/state', { method: 'GET' });
+  if (!response.ok) {
+    throw new Error('Failed to fetch initial state');
+  }
+  return response.json();
+};
+
+// Функция для отправки измененного состояния
+const sendUpdatedState = async (state) => {
+  const response = await fetch('/state', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(state),
+  });
+  if (!response.ok) {
+    throw new Error('Failed to update state');
+  }
+};
 
 function App() {
   const [volume, setVolume] = useState(1.0);
@@ -16,6 +39,68 @@ function App() {
   const [isPitchEnabled, setIsPitchEnabled] = useState(false);
   const [isDistortionEnabled, setIsDistortionEnabled] = useState(false);
   const [isDelayEnabled, setIsDelayEnabled] = useState(false);
+
+  useEffect(() => {
+    const initializeState = async () => {
+      try {
+        const initialState = await fetchInitialState();
+        setVolume(initialState.volume);
+        setPitch(initialState.pitchShiftValue);
+        setDelayDuration(initialState.delayDuration);
+        setDelayDepth(initialState.delayDepth);
+        setDelayFeedbackAmount(initialState.delayFeedback);
+        setDistortionClipThreshold(initialState.clipThreshold);
+        setDistortionMaxInput(initialState.maxInput);
+        setIsVolumeEnabled(true); // volume always enabled by default
+        setIsPitchEnabled(initialState.pitchEnabled === 1);
+        setIsDistortionEnabled(initialState.distortionEnabled === 1);
+        setIsDelayEnabled(initialState.delayEnabled === 1);
+      } catch (error) {
+        console.error('Failed to initialize state', error);
+      }
+    };
+
+    initializeState();
+  }, []);
+
+  // Функция для отправки обновленного состояния на сервер
+  const updateState = async () => {
+    const state = {
+      pitchEnabled: isPitchEnabled ? 1 : 0,
+      pitchShiftValue: pitch,
+      distortionEnabled: isDistortionEnabled ? 1 : 0,
+      clipThreshold: distortionClipThreshold,
+      maxInput: distortionMaxInput,
+      delayEnabled: isDelayEnabled ? 1 : 0,
+      delayDuration,
+      delayDepth,
+      delayFeedback: delayFeedbackAmount,
+      volume,
+    };
+
+    try {
+      await sendUpdatedState(state);
+    } catch (error) {
+      console.error('Failed to update state', error);
+    }
+  };
+
+  // Используем useEffect для отправки обновленного состояния при каждом изменении параметров
+  useEffect(() => {
+    updateState();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    volume,
+    pitch,
+    delayDuration,
+    delayDepth,
+    delayFeedbackAmount,
+    distortionClipThreshold,
+    distortionMaxInput,
+    isPitchEnabled,
+    isDistortionEnabled,
+    isDelayEnabled,
+  ]);
 
   const resetEffects = () => {
     console.log('Resetting states...');
@@ -31,8 +116,17 @@ function App() {
     setIsDistortionEnabled(false);
     setIsDelayEnabled(false);
     console.log('States after reset:', {
-      volume, pitch, delayDuration, delayDepth, delayFeedbackAmount, distortionClipThreshold, distortionMaxInput,
-      isVolumeEnabled, isPitchEnabled, isDistortionEnabled, isDelayEnabled
+      volume,
+      pitch,
+      delayDuration,
+      delayDepth,
+      delayFeedbackAmount,
+      distortionClipThreshold,
+      distortionMaxInput,
+      isVolumeEnabled,
+      isPitchEnabled,
+      isDistortionEnabled,
+      isDelayEnabled,
     });
   };
 
