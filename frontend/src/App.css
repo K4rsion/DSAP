@@ -1,8 +1,21 @@
-/* App.css */
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
   margin: 0;
   padding: 0;
+}
+
+.h-vol {
+  margin-bottom: 46px;
+}
+
+.h-pitch {
+  margin-top: 95px;
+}
+
+.h-dist {
+  margin-top: 90px;
 }
 
 .app-container {
@@ -52,16 +65,16 @@ html, body, #root {
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
-  width: 100%; 
-  max-width: 1200px; 
+  width: 100%;
+  max-width: 1200px;
   gap: 20px;
-  margin: 0 auto; 
+  margin: 0 auto;
 }
 
 .three-column-inner-container {
   display: flex;
   flex-direction: column;
-  width: 33.33%; 
+  width: 33.33%;
   box-sizing: border-box;
 }
 

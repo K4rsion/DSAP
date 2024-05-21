@@ -18,8 +18,6 @@ function App() {
   const [isDistortionEnabled, setIsDistortionEnabled] = useState(false);
   const [isDelayEnabled, setIsDelayEnabled] = useState(false);
 
-
-
   //если не заработает запрос /state, то можешь это вот просто закомментить и без него попробовать
   useEffect(() => {
     const fetchState = async () => {
@@ -61,7 +59,7 @@ function App() {
     // Отправляем запрос на сброс эффектов
     Client.resetEffects()
       .then(() => console.log('Effects reset successfully'))
-      .catch(error => console.error('Failed to reset effects', error));
+      .catch((error) => console.error('Failed to reset effects', error));
   };
 
   return (
@@ -73,7 +71,7 @@ function App() {
       <div className="three-column-container">
         <div className="three-column-inner-container">
           <div className="filter">
-            <h2 className="bit-cell-font text-4xl text-white mb-2">volume:</h2>
+            <h2 className="h-vol bit-cell-font text-4xl text-white">volume:</h2>
             <Slider
               sliderType="volume"
               value={volume}
@@ -82,7 +80,7 @@ function App() {
             />
           </div>
           <div className="filter">
-            <h2 className="bit-cell-font text-4xl text-white mt-11 mb-2">pitch:</h2>
+            <h2 className="h-pitch bit-cell-font text-4xl text-white">pitch:</h2>
             <Slider
               sliderType="pitch"
               value={pitch}
@@ -99,7 +97,7 @@ function App() {
 
         <div className="three-column-inner-container">
           <div className="filter">
-            <h2 className="bit-cell-font text-4xl text-white mb-2">delay:</h2>
+            <h2 className="bit-cell-font text-4xl text-white">delay:</h2>
             <h3 className="bit-cell-font text-white text-3xl">duration:</h3>
             <Slider
               sliderType="delayDuration"
@@ -114,7 +112,9 @@ function App() {
               onChange={setDelayDepth}
               enabled={isDelayEnabled}
             />
-            <h5 className="bit-cell-font text-white text-3xl">feedback amount:</h5>
+            <h5 className="bit-cell-font text-white text-3xl">
+              feedback amount:
+            </h5>
             <Slider
               sliderType="delayFeedbackAmount"
               value={delayFeedbackAmount}
@@ -131,15 +131,17 @@ function App() {
 
         <div className="three-column-inner-container">
           <div className="filter">
-            <h2 className="bit-cell-font text-4xl text-white mb-2">distortion:</h2>
-            <h3 className="bit-cell-font text-white text-3xl">clip threshold:</h3>
+            <h2 className="bit-cell-font text-4xl text-white  ">distortion:</h2>
+            <h3 className="bit-cell-font text-white text-3xl">
+              clip threshold:
+            </h3>
             <Slider
               sliderType="distortionClipThreshold"
               value={distortionClipThreshold}
               onChange={setDistortionClipThreshold}
               enabled={isDistortionEnabled}
             />
-            <h4 className="bit-cell-font text-white text-3xl">max input:</h4>
+            <h4 className="h-dist bit-cell-font text-white text-3xl">max input:</h4>
             <Slider
               sliderType="distortionMaxInput"
               value={distortionMaxInput}
