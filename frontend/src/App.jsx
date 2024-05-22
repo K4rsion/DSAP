@@ -18,6 +18,10 @@ function App() {
   const [isDistortionEnabled, setIsDistortionEnabled] = useState(false);
   const [isDelayEnabled, setIsDelayEnabled] = useState(false);
 
+  useEffect(() => {
+    document.title = 'DSAP'; // Установка заголовка страницы
+  }, []);
+
   //если не заработает запрос /state, то можешь это вот просто закомментить и без него попробовать
   useEffect(() => {
     const fetchState = async () => {
@@ -80,7 +84,9 @@ function App() {
             />
           </div>
           <div className="filter">
-            <h2 className="h-pitch bit-cell-font text-4xl text-white">pitch:</h2>
+            <h2 className="h-pitch bit-cell-font text-4xl text-white">
+              pitch:
+            </h2>
             <Slider
               sliderType="pitch"
               value={pitch}
@@ -141,7 +147,9 @@ function App() {
               onChange={setDistortionClipThreshold}
               enabled={isDistortionEnabled}
             />
-            <h4 className="h-dist bit-cell-font text-white text-3xl">max input:</h4>
+            <h4 className="h-dist bit-cell-font text-white text-3xl">
+              max input:
+            </h4>
             <Slider
               sliderType="distortionMaxInput"
               value={distortionMaxInput}
