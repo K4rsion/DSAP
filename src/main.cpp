@@ -35,8 +35,11 @@ IPAddress subnet(255, 255, 255, 0);
 AsyncWebServer server(80);
 
 void startServer();
+
 void configureI2SIn();
+
 void configureI2SOut();
+
 void router();
 
 void setup() {
@@ -59,14 +62,19 @@ void setup() {
     conv.begin(info32, info16);
 }
 
+unsigned long prefTime = 0;
+
 void loop() {
-    int connectedClients = WiFi.softAPgetStationNum();
-    if (connectedClients > 0) {
-        WS2812B.setPixelColor(0, WS2812B.Color(0, 255, 0));
-        WS2812B.show();
-    } else {
-        WS2812B.setPixelColor(0, WS2812B.Color(255, 0, 0));
-        WS2812B.show();
+    if (millis() - prefTime > 1000) {
+        int connectedClients = WiFi.softAPgetStationNum();
+        if (connectedClients > 0) {
+            WS2812B.setPixelColor(0, WS2812B.Color(0, 255, 0));
+            WS2812B.show();
+        } else {
+            WS2812B.setPixelColor(0, WS2812B.Color(255, 0, 0));
+            WS2812B.show();
+        }
+        prefTime = millis();
     }
     copier.copy();
 }
@@ -90,23 +98,6 @@ void router() {
             boost.setVolume(volumeValue);
         }
         request->send(200, "text/plain", "OK");
-    });
-
-    server.on("/state", HTTP_GET, [](AsyncWebServerRequest *request) {
-        String response = "{";
-        response += "\"pitchEnabled\":" + String(pitchShift.active() ? 1 : 0) + ",";
-        response += "\"pitchShiftValue\":" + String(pitchShift.value()) + ",";
-        response += "\"distortionEnabled\":" + String(distortion.active() ? 1 : 0) + ",";
-        response += "\"clipThreshold\":" + String(distortion.clipThreashold()) + ",";
-        response += "\"maxInput\":" + String(distortion.maxInput()) + ",";
-        response += "\"delayEnabled\":" + String(delayEffect.active() ? 1 : 0) + ",";
-        response += "\"delayDuration\":" + String(delayEffect.getDuration()) + ",";
-        response += "\"delayDepth\":" + String(delayEffect.getDepth()) + ",";
-        response += "\"delayFeedback\":" + String(delayEffect.getFeedback()) + ",";
-        response += "\"boostVolume\":" + String(boost.volume());
-        response += "}";
-
-        request->send(200, "application/json", response);
     });
 
     server.on("/pitch", HTTP_PUT, [](AsyncWebServerRequest *request) {
