@@ -3,7 +3,10 @@
 ---
 
 ### Overview
-This project aims to implement voice transformation using the ESP32 microcontroller. The ESP32 is utilized along with external ADCs and DACs to process audio input and output. The system supports volume control and three audio effects: pitch, delay, and distortion. It provides flexibility in terms of input and output devices, allowing the connection of microphones, speakers, or other audio devices via auxiliary (aux) ports. Additionally, a web server is hosted on the ESP32 to facilitate the configuration of effect parameters.
+This project aims to implement voice transformation using the ESP32 microcontroller. The ESP32 is utilized along with external ADCs and DACs to process audio input and output. The system supports volume control and three audio effects: _pitch_, _delay_, and _distortion_. It provides flexibility in terms of input and output devices, allowing the connection of microphones, speakers, or other audio devices via auxiliary (aux) ports. Additionally, a web server is hosted on the ESP32 to facilitate the configuration of effect parameters.
+
+![Scheme](https://github.com/K4rsion/DSAP/assets/91548763/b9fe02f9-0df5-492d-94fc-c692bff07cd4)
+
 
 ### Features
 - Voice transformation using ESP32 microcontroller.
